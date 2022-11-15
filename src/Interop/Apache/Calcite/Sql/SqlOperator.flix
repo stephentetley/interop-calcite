@@ -30,7 +30,8 @@ namespace Interop/Apache/Calcite/Sql/SqlOperator {
 
     use Interop/Apache/Calcite/Sql.SqlOperator
     use Interop/Apache/Calcite/Sql.SqlOperator.{SqlOperator}
-
+    use Interop/Apache/Calcite/Sql.SqlKind
+    use Interop/Apache/Calcite/Sql.SqlKind.{SqlKind}
 
     pub def getHH(op: SqlOperator): ##org.apache.calcite.sql.SqlOperator = 
         let SqlOperator(op1) = op;
@@ -41,5 +42,15 @@ namespace Interop/Apache/Calcite/Sql/SqlOperator {
         import org.apache.calcite.sql.SqlOperator.toString(): String \ {};
         let SqlOperator(op1) = op;
         toString(op1)
+
+    pub def getKind(op: SqlOperator): SqlKind = 
+        import org.apache.calcite.sql.SqlOperator.getKind(): ##org.apache.calcite.sql.SqlKind \ {};
+        let SqlOperator(op1) = op;
+        getKind(op1) |> SqlKind
+
+    pub def getName(op: SqlOperator): String = 
+        import org.apache.calcite.sql.SqlOperator.getName(): String \ {};
+        let SqlOperator(op1) = op;
+        getName(op1)
 
 }

@@ -30,6 +30,8 @@ namespace Interop/Apache/Calcite/Sql/SqlIdentifier {
 
     use Interop/Apache/Calcite/Sql.SqlIdentifier
     use Interop/Apache/Calcite/Sql.SqlIdentifier.{SqlIdentifier}
+    use Interop/Apache/Calcite/Sql.SqlKind
+    use Interop/Apache/Calcite/Sql.SqlKind.{SqlKind}
 
 
     pub def getHH(id: SqlIdentifier): ##org.apache.calcite.sql.SqlIdentifier = 
@@ -41,5 +43,21 @@ namespace Interop/Apache/Calcite/Sql/SqlIdentifier {
         import org.apache.calcite.sql.SqlIdentifier.toString(): String \ {};
         let SqlIdentifier(id1) = id;
         toString(id1)
+
+    pub def getKind(id: SqlIdentifier): SqlKind = 
+        import org.apache.calcite.sql.SqlIdentifier.getKind(): ##org.apache.calcite.sql.SqlKind \ {};
+        let SqlIdentifier(id1) = id;
+        getKind(id1) |> SqlKind
+
+
+    pub def isSimple(id: SqlIdentifier): Bool = 
+        import org.apache.calcite.sql.SqlIdentifier.isSimple(): Bool \ {};
+        let SqlIdentifier(id1) = id;
+        isSimple(id1)
+
+    pub def isStar(id: SqlIdentifier): Bool = 
+        import org.apache.calcite.sql.SqlIdentifier.isStar(): Bool \ {};
+        let SqlIdentifier(id1) = id;
+        isStar(id1)
 
 }
