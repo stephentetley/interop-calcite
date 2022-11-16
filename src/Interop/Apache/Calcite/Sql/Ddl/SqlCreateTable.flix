@@ -42,4 +42,11 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable {
         let SqlCreateTable(ct1) = ct;
         toString(ct1)
 
+
+    // TODO should `interop-base` provide ImmList ?
+    pub def getOperandList(c: SqlCreateTable): ##java.util.List = 
+        import org.apache.calcite.sql.ddl.SqlCreateTable.getOperandList(): ##java.util.List \ {};
+        let SqlCreateTable(c1) = c;
+        getOperandList(c1)
+
 }

@@ -17,6 +17,8 @@
 
 namespace Interop/Apache/Calcite/Sql {
 
+    /// Extends SqlCall
+
     pub enum SqlInsert(##org.apache.calcite.sql.SqlInsert)
 
     instance ToString[SqlInsert] {
@@ -30,6 +32,8 @@ namespace Interop/Apache/Calcite/Sql/SqlInsert {
 
     use Interop/Apache/Calcite/Sql.SqlInsert
     use Interop/Apache/Calcite/Sql.SqlInsert.{SqlInsert}
+    use Interop/Apache/Calcite/Sql.SqlKind
+    use Interop/Apache/Calcite/Sql.SqlKind.{SqlKind}
 
 
     pub def getHH(c: SqlInsert): ##org.apache.calcite.sql.SqlInsert = 
@@ -41,5 +45,11 @@ namespace Interop/Apache/Calcite/Sql/SqlInsert {
         import org.apache.calcite.sql.SqlInsert.toString(): String \ {};
         let SqlInsert(c1) = c;
         toString(c1)
+
+    pub def getKind(c: SqlInsert): SqlKind = 
+        import org.apache.calcite.sql.SqlInsert.getKind(): ##org.apache.calcite.sql.SqlKind \ {};
+        let SqlInsert(c1) = c;
+        getKind(c1) |> SqlKind
+
 
 }
