@@ -30,6 +30,8 @@ namespace Interop/Apache/Calcite/Sql/SqlNode {
 
     use Interop/Apache/Calcite/Sql.SqlNode
     use Interop/Apache/Calcite/Sql.SqlNode.{SqlNode}
+    use Interop/Apache/Calcite/Sql.SqlKind
+    use Interop/Apache/Calcite/Sql.SqlKind.{SqlKind}
 
 
     pub def getHH(n: SqlNode): ##org.apache.calcite.sql.SqlNode = 
@@ -41,5 +43,10 @@ namespace Interop/Apache/Calcite/Sql/SqlNode {
         import org.apache.calcite.sql.SqlNode.toString(): String \ {};
         let SqlNode(n1) = n;
         toString(n1)
+
+    pub def getKind(n: SqlNode): SqlKind = 
+        import org.apache.calcite.sql.SqlNode.getKind(): ##org.apache.calcite.sql.SqlKind \ {};
+        let SqlNode(n1) = n;
+        getKind(n1) |> SqlKind
 
 }

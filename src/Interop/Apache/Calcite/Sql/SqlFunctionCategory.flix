@@ -42,16 +42,48 @@ namespace Interop/Apache/Calcite/Sql/SqlFunctionCategory {
         let SqlFunctionCategory(fc1) = fc;
         toString(fc1)
 
-
-    pub def match_recognize(): SqlFunctionCategory = 
+    pub def match_recognize(): SqlFunctionCategory =
         import static get org.apache.calcite.sql.SqlFunctionCategory.MATCH_RECOGNIZE: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_MATCH_RECOGNIZE;
         get_MATCH_RECOGNIZE() |> SqlFunctionCategory
 
-    pub def numeric(): SqlFunctionCategory = 
+    pub def numeric(): SqlFunctionCategory =
         import static get org.apache.calcite.sql.SqlFunctionCategory.NUMERIC: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_NUMERIC;
         get_NUMERIC() |> SqlFunctionCategory
 
-    pub def timedate(): SqlFunctionCategory = 
+    pub def string(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.STRING: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_STRING;
+        get_STRING() |> SqlFunctionCategory
+
+    pub def system(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.SYSTEM: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_SYSTEM;
+        get_SYSTEM() |> SqlFunctionCategory
+
+    pub def timedate(): SqlFunctionCategory =
         import static get org.apache.calcite.sql.SqlFunctionCategory.TIMEDATE: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_TIMEDATE;
         get_TIMEDATE() |> SqlFunctionCategory
+
+    pub def user_defined_constructor(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_CONSTRUCTOR: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_CONSTRUCTOR;
+        get_USER_DEFINED_CONSTRUCTOR() |> SqlFunctionCategory
+
+    pub def user_defined_function(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_FUNCTION: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_FUNCTION;
+        get_USER_DEFINED_FUNCTION() |> SqlFunctionCategory
+
+    pub def user_defined_procedure(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_PROCEDURE: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_PROCEDURE;
+        get_USER_DEFINED_PROCEDURE() |> SqlFunctionCategory
+
+    pub def user_defined_specific_function(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_SPECIFIC_FUNCTION: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_SPECIFIC_FUNCTION;
+        get_USER_DEFINED_SPECIFIC_FUNCTION() |> SqlFunctionCategory
+
+    pub def user_defined_table_function(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_TABLE_FUNCTION: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_TABLE_FUNCTION;
+        get_USER_DEFINED_TABLE_FUNCTION() |> SqlFunctionCategory
+
+    pub def user_defined_table_specific_function(): SqlFunctionCategory =
+        import static get org.apache.calcite.sql.SqlFunctionCategory.USER_DEFINED_TABLE_SPECIFIC_FUNCTION: ##org.apache.calcite.sql.SqlFunctionCategory \ {} as get_USER_DEFINED_TABLE_SPECIFIC_FUNCTION;
+        get_USER_DEFINED_TABLE_SPECIFIC_FUNCTION() |> SqlFunctionCategory
+
 }

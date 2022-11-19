@@ -24,6 +24,14 @@ namespace Interop/Apache/Calcite/Sql {
             Interop/Apache/Calcite/Sql/SqlKind.toString(x)
     }
 
+    instance Eq[SqlKind] {
+        pub def eq(x: SqlKind, y: SqlKind): Bool = 
+            import java.lang.Enum.equals(##java.lang.Object): Bool \ {};
+            let SqlKind(x1) = x;
+            let SqlKind(y1) = y;
+            equals(x1 as ##java.lang.Enum, y1 as ##java.lang.Object)
+    }
+
 }
 
 namespace Interop/Apache/Calcite/Sql/SqlKind {
@@ -41,6 +49,7 @@ namespace Interop/Apache/Calcite/Sql/SqlKind {
         import org.apache.calcite.sql.SqlKind.toString(): String \ {};
         let SqlKind(k1) = k;
         toString(k1)
+
 
 
     pub def all(): SqlKind = 
@@ -1110,6 +1119,7 @@ namespace Interop/Apache/Calcite/Sql/SqlKind {
         get_WITHIN_DISTINCT() |> SqlKind
 
     pub def within_group(): SqlKind = 
-        import static get org.apache.calcite.sql.SqlKind.WITHIN_GROUP: ##org.apache.calcite.sql.SqlKind \ {} as get_WITHIN_GROUP;	        get_WITHIN_GROUP() |> SqlKind
+        import static get org.apache.calcite.sql.SqlKind.WITHIN_GROUP: ##org.apache.calcite.sql.SqlKind \ {} as get_WITHIN_GROUP;
+        get_WITHIN_GROUP() |> SqlKind
 
 }

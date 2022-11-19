@@ -30,11 +30,14 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable {
 
     use Interop/Apache/Calcite/Sql/Ddl.SqlCreateTable
     use Interop/Apache/Calcite/Sql/Ddl.SqlCreateTable.{SqlCreateTable}
-
+    use Interop/Apache/Calcite/Sql.SqlIdentifier
+    use Interop/Apache/Calcite/Sql.SqlIdentifier.{SqlIdentifier}
 
     pub def getHH(ct: SqlCreateTable): ##org.apache.calcite.sql.ddl.SqlCreateTable = 
         let SqlCreateTable(ct1) = ct;
         ct1
+
+    pub def wrapHH(ct: ##org.apache.calcite.sql.ddl.SqlCreateTable): SqlCreateTable = SqlCreateTable(ct)
 
 
     pub def toString(ct: SqlCreateTable): String = 
@@ -48,5 +51,11 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable {
         import org.apache.calcite.sql.ddl.SqlCreateTable.getOperandList(): ##java.util.List \ {};
         let SqlCreateTable(c1) = c;
         getOperandList(c1)
+
+    pub def name(c: SqlCreateTable): SqlIdentifier = 
+        import get org.apache.calcite.sql.ddl.SqlCreateTable.name: ##org.apache.calcite.sql.SqlIdentifier \ {} as get_name;
+        let SqlCreateTable(c1) = c;
+        get_name(c1) |> SqlIdentifier
+
 
 }
