@@ -4,6 +4,9 @@ use Interop/Apache/Calcite/Sql.SqlNode
 def main(): Unit \ IO = 
     println("Running...");
     parseDDL("CREATE TABLE person (name TEXT NOT NULL, age INTEGER, CONSTRAINT PK_person PRIMARY KEY(name, age))") |> println;
+    parseDDL("CREATE TABLE person (name TEXT NOT NULL, age INTEGER, CONSTRAINT PK_person PRIMARY KEY(name, age))") 
+        |> Calcite/Tagless/Parser1.interpret1
+        |> println;
     ()
 
 

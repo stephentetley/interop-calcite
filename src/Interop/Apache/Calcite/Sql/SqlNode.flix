@@ -24,6 +24,10 @@ namespace Interop/Apache/Calcite/Sql {
             Interop/Apache/Calcite/Sql/SqlNode.toString(x)
     }
 
+    pub class SubSqlNode[a] {
+        pub def toSqlNode(s: a): SqlNode
+        pub def fromSqlNode(s: SqlNode): a
+    }
 }
 
 namespace Interop/Apache/Calcite/Sql/SqlNode {

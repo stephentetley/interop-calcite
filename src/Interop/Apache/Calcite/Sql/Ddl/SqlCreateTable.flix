@@ -17,6 +17,9 @@
 
 namespace Interop/Apache/Calcite/Sql/Ddl {
 
+    use Interop/Apache/Calcite/Sql.SqlNode
+    use Interop/Apache/Calcite/Sql.SqlNode.{SqlNode}
+
     pub enum SqlCreateTable(##org.apache.calcite.sql.ddl.SqlCreateTable)
 
     instance ToString[SqlCreateTable] {
@@ -24,6 +27,15 @@ namespace Interop/Apache/Calcite/Sql/Ddl {
             Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable.toString(x)
     }
 
+    instance Interop/Apache/Calcite/Sql.SubSqlNode[SqlCreateTable] {
+        pub def toSqlNode(x: SqlCreateTable): SqlNode = 
+            let SqlCreateTable(x1) = x;
+            SqlNode(x1 as ##org.apache.calcite.sql.SqlNode)
+
+        pub def fromSqlNode(x: SqlNode): SqlCreateTable = 
+            let SqlNode(x1) = x;
+            SqlCreateTable(x1 as ##org.apache.calcite.sql.ddl.SqlCreateTable) 
+    }
 }
 
 namespace Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable {
@@ -36,8 +48,6 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable {
     pub def getHH(ct: SqlCreateTable): ##org.apache.calcite.sql.ddl.SqlCreateTable = 
         let SqlCreateTable(ct1) = ct;
         ct1
-
-    pub def wrapHH(ct: ##org.apache.calcite.sql.ddl.SqlCreateTable): SqlCreateTable = SqlCreateTable(ct)
 
 
     pub def toString(ct: SqlCreateTable): String = 
