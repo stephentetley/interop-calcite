@@ -1,0 +1,116 @@
+/*
+ * Copyright 2022 Stephen Tetley
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+namespace Calcite/Tagless {
+
+    ///
+    /// Codensity(Error) monad
+    /// 
+    /// `ka` is the continuation answer type
+    ///
+    pub enum Parser[r: Region, ka: Type, node: Type, a: Type](MonadLib.Evaluator[r, ka, node, a])
+
+    instance Functor[Parser[r, ka, node]] {
+        pub def map(f: a -> b \ ef, x: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+            Calcite/Tagless/Parser.map(f, x)
+    }
+
+    instance Applicative[Parser[r, ka, node]] {
+        pub def point(x: a): Parser[r, ka, node, a] = 
+            Calcite/Tagless/Parser.point(x)
+
+        pub def ap(mf: Parser[r, ka, node, a -> b \ ef], ma: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+            Calcite/Tagless/Parser.ap(mf, ma)
+    }
+    
+    instance Monad[Parser[r, ka, node]] {
+        pub def flatMap(k: a -> Parser[r, ka, node, b] \ ef, x: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+            Calcite/Tagless/Parser.flatMap(k, x)
+    } 
+
+    instance MonadZero[Parser[r, ka, node]] {
+        pub def empty(): Parser[r, ka, node, a] = 
+            Calcite/Tagless/Parser.empty()
+    }
+    
+    instance MonadLib.MonadOr[Parser[r, ka, node]] {
+        pub def orelse(a: Parser[r, ka, node, a], b: Parser[r, ka, node, a]): Parser[r, ka, node, a] =
+            Calcite/Tagless/Parser.orelse(a, b)
+    }
+
+    instance MonadLib.MonadError[Parser[r, ka, node]] {
+        pub def throwError(msg: String): Parser[r, ka, node, a] = 
+            Calcite/Tagless/Parser.throwError(msg)
+
+        pub def mapError(f: String -> String \ ef, ma: Parser[r, ka, node, a]): Parser[r, ka, node, a] \ ef =
+            Calcite/Tagless/Parser.mapError(f, ma)
+
+        pub def catchError(ma: Parser[r, ka, node, a], f: String -> Parser[r, ka, node, a] \ ef): Parser[r, ka, node, a] \ ef =
+            Calcite/Tagless/Parser.catchError(ma, f)
+    }
+
+}
+
+namespace Calcite/Tagless/Parser {
+
+
+    use Calcite/Tagless.Parser
+    use Calcite/Tagless.Parser.{Parser}
+
+    pub def getParser(x: Parser[r, ka, node, a]): MonadLib.Evaluator[r, ka, node, a] = 
+        let Parser(x1) = x;
+        x1
+        
+    pub def runParser(r: Region[r], ma: Parser[r, a, node, a], st: node): Result[a, String] \ r =
+        MonadLib/Evaluator.runEvaluator(r, getParser(ma), st)
+
+    pub def point(x: a): Parser[r, ka, node, a] = Parser(MonadLib/Evaluator.point(x))
+
+    pub def map(f: a -> b \ ef, ma: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+        Parser(MonadLib/Evaluator.map(f, getParser(ma)))
+
+    pub def ap(mf: Parser[r, ka, node, a -> b \ ef], ma: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+        Parser(MonadLib/Evaluator.ap(getParser(mf), getParser(ma)))
+
+
+    pub def flatMap(f: a -> Parser[r, ka, node, b] \ ef, ma: Parser[r, ka, node, a]): Parser[r, ka, node, b] \ ef =
+        Parser(MonadLib/Evaluator.flatMap(f >> getParser, getParser(ma)))
+
+    pub def throwError(msg: String): Parser[r, ka, node, a] = 
+        Parser(MonadLib/Evaluator.throwError(msg))
+
+    pub def mapError(f: String -> String \ ef, ma: Parser[r, ka, node, a]): Parser[r, ka, node, a] \ ef = 
+        Parser(MonadLib/Evaluator.mapError(f, getParser(ma)))
+
+    pub def catchError(ma: Parser[r, ka, node, a], f: String -> Parser[r, ka, node, a] \ ef): Parser[r, ka, node, a] \ ef =
+        Parser(MonadLib/Evaluator.catchError(getParser(ma), f >> getParser))
+
+    pub def empty(): Parser[r, ka, node, a] = 
+        Parser(MonadLib/Evaluator.empty())
+        
+    pub def orelse(ma: Parser[r, ka, node, a], mb: Parser[r, ka, node, a]): Parser[r, ka, node, a] =
+        Parser(MonadLib/Evaluator.orelse(getParser(ma), getParser(mb)))
+
+    pub def liftGetter(f: node -> a \ ef): Parser[r, ka, node, a] \ ef =
+        Parser(MonadLib/Evaluator.liftGetter(f))
+
+    pub def liftGetterResult(f: node -> Result[a, err] \ ef): Parser[r, ka, node, a] \ ef with ToString[err] =
+        Parser(MonadLib/Evaluator.liftGetterResult(f))
+
+
+}        
