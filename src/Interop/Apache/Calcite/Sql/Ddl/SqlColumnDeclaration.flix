@@ -34,6 +34,8 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlColumnDeclaration {
 
     use Interop/Apache/Calcite/Sql/Ddl.SqlColumnDeclaration
     use Interop/Apache/Calcite/Sql/Ddl.SqlColumnDeclaration.{SqlColumnDeclaration}
+    use Interop/Apache/Calcite/Schema.ColumnStrategy
+    use Interop/Apache/Calcite/Schema.ColumnStrategy.{ColumnStrategy}
     use Interop/Apache/Calcite/Sql.SqlDataTypeSpec
     use Interop/Apache/Calcite/Sql.SqlDataTypeSpec.{SqlDataTypeSpec}
     use Interop/Apache/Calcite/Sql.SqlIdentifier
@@ -71,5 +73,10 @@ namespace Interop/Apache/Calcite/Sql/Ddl/SqlColumnDeclaration {
         import get org.apache.calcite.sql.ddl.SqlColumnDeclaration.dataType: ##org.apache.calcite.sql.SqlDataTypeSpec \ {} as get_dataType;
         let SqlColumnDeclaration(cd1) = cd;
         get_dataType(cd1) |> SqlDataTypeSpec
+
+    pub def strategy(cd: SqlColumnDeclaration): ColumnStrategy = 
+        import get org.apache.calcite.sql.ddl.SqlColumnDeclaration.strategy: ##org.apache.calcite.schema.ColumnStrategy \ {} as get_strategy;
+        let SqlColumnDeclaration(cd1) = cd;
+        get_strategy(cd1) |> ColumnStrategy
 
 }
