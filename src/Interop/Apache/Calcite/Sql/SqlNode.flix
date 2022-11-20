@@ -17,11 +17,17 @@
 
 namespace Interop/Apache/Calcite/Sql {
 
+    use Interop/Apache/Calcite/Sql.SqlKind
+
     pub enum SqlNode(##org.apache.calcite.sql.SqlNode)
 
     instance ToString[SqlNode] {
         pub def toString(x: SqlNode): String = 
             Interop/Apache/Calcite/Sql/SqlNode.toString(x)
+    }
+
+    instance GetSqlKind[SqlNode] {
+        pub def getSqlKind(x: SqlNode): SqlKind = Interop/Apache/Calcite/Sql/SqlNode.getKind(x)
     }
 
     pub class SubSqlNode[a] {

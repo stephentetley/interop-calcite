@@ -19,6 +19,10 @@ namespace Interop/Apache/Calcite/Sql {
 
     pub enum SqlKind(##org.apache.calcite.sql.SqlKind)
 
+    pub class GetSqlKind[a] {
+        pub def getSqlKind(s: a): SqlKind
+    }
+
     instance ToString[SqlKind] {
         pub def toString(x: SqlKind): String = 
             Interop/Apache/Calcite/Sql/SqlKind.toString(x)

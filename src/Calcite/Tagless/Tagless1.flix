@@ -36,13 +36,16 @@ namespace Calcite/Tagless/Tagless {
 
 namespace Calcite/Tagless/Parser1 {
 
+    use Interop/Apache/Calcite/Sql.SqlKind
     use Interop/Apache/Calcite/Sql.SqlNode
     use Interop/Apache/Calcite/Sql.SqlNode.{SqlNode}
+    use Interop/Apache/Calcite/Sql.SubSqlNode
     use Interop/Apache/Calcite/Sql/Ddl.SqlCreateTable
     use Interop/Apache/Calcite/Sql/Ddl.SqlCreateView
     use Calcite/Tagless/Tagless.DdlAlg
     use Calcite/Tagless/Tagless/DdlAlg.{sqlCreateTable, sqlCreateView}
     use Calcite/Tagless.Parser
+    use Calcite/Tagless/Parser.{asksNode, withLocalNode}
     use MonadLib/MonadOr.orelse
 
     pub def interpret1(node: SqlNode): Result[String, String] = region r {
@@ -57,16 +60,20 @@ namespace Calcite/Tagless/Parser1 {
     pub def parseDdl(): SqlNodeParser[r, ka, e] with DdlAlg[e] = 
         parseCreateTable() `orelse` parseCreateView()
 
+    def fromSqlNodeWithSqlKind(lookingFor: { lookingFor = SqlKind}, skind: SqlKind, node: SqlNode): Option[node] with SubSqlNode[node] = 
+        if (skind == lookingFor.lookingFor) 
+            Interop/Apache/Calcite/Sql/SubSqlNode.fromSqlNode(node) |> Some 
+        else None
+
+
     pub def parseCreateTable(): SqlNodeParser[r, ka, e] with DdlAlg[e] =
-        let body = node -> match Interop/Apache/Calcite/Sql/SqlNode.getKind(node) {
-            case en if en == Interop/Apache/Calcite/Sql/SqlKind.create_table() => {
-                let sct: SqlCreateTable = Interop/Apache/Calcite/Sql/SubSqlNode.fromSqlNode(node);
-                let name = Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable.name(sct);
-                sqlCreateTable(Interop/Apache/Calcite/Sql/SqlIdentifier.toString(name)) |> Ok
-            }
-            case _ => Err("parseCreateTable")
+        use Calcite/Tagless/Parser.{flatMap, point};
+        let body = {
+            let* name = asksNode(Interop/Apache/Calcite/Sql/Ddl/SqlCreateTable.name);
+            point(sqlCreateTable(Interop/Apache/Calcite/Sql/SqlIdentifier.toString(name)))
         };
-        Calcite/Tagless/Parser.liftGetterResult(body)
+        withLocalNode(fromSqlNodeWithSqlKind(lookingFor = Interop/Apache/Calcite/Sql/SqlKind.create_table()), body)
+
 
     pub def parseCreateView(): SqlNodeParser[r, ka, e] with DdlAlg[e] =
         let body = node -> match Interop/Apache/Calcite/Sql/SqlNode.getKind(node) {
