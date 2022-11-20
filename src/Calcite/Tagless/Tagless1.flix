@@ -60,7 +60,7 @@ namespace Calcite/Tagless/Parser1 {
     pub def parseDdl(): SqlNodeParser[r, ka, e] with DdlAlg[e] = 
         parseCreateTable() `orelse` parseCreateView()
 
-    def fromSqlNodeWithSqlKind(lookingFor: { lookingFor = SqlKind}, skind: SqlKind, node: SqlNode): Option[node] with SubSqlNode[node] = 
+    def fromSqlNodeWithSqlKind(lookingFor: {lookingFor = SqlKind}, skind: SqlKind, node: SqlNode): Option[node] with SubSqlNode[node] = 
         if (skind == lookingFor.lookingFor) 
             Interop/Apache/Calcite/Sql/SubSqlNode.fromSqlNode(node) |> Some 
         else None
