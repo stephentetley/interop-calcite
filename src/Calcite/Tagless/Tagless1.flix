@@ -18,9 +18,18 @@
 
 namespace Calcite/Tagless/Tagless {
 
-    pub class DdlAlg[repr: Type] {
-        pub def sqlCreateTable(name: String): repr
-        pub def sqlCreateView(name: String): repr
+    /// WARNING - we want this but don't have MPTCs
+    /// pub def sqlCreateTable(name: String, cols: List[col]): ddl
+
+    pub class DdlAlg[ddl: Type] {
+        pub def sqlCreateTable(name: String): ddl
+        pub def sqlCreateView(name: String): ddl
+    }
+
+
+    pub class ColumnAlg[col: Type] {
+        pub def sqlColumnDeclaration(): col
+        pub def sqlKeyConstraint(): col
     }
 
     pub type alias PP = String
@@ -51,6 +60,8 @@ namespace Calcite/Tagless/Parser1 {
     pub def interpret1(node: SqlNode): Result[String, String] = region r {
         Calcite/Tagless/Parser.runParser(r, parseDdl(), node)
     }
+
+
 
     pub def test01(): e with DdlAlg[e] = sqlCreateTable("countries")
 

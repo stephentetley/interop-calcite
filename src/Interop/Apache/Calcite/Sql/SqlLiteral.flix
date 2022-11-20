@@ -24,22 +24,49 @@ namespace Interop/Apache/Calcite/Sql {
             Interop/Apache/Calcite/Sql/SqlLiteral.toString(x)
     }
 
+    instance Eq[SqlLiteral] {
+        pub def eq(x: SqlLiteral, y: SqlLiteral): Bool = 
+            Interop/Apache/Calcite/Sql/SqlLiteral.equals(x, y)
+    }
+
 }
 
 namespace Interop/Apache/Calcite/Sql/SqlLiteral {
 
     use Interop/Apache/Calcite/Sql.SqlLiteral
     use Interop/Apache/Calcite/Sql.SqlLiteral.{SqlLiteral}
+    use Interop/Apache/Calcite/Sql.SqlKind
+    use Interop/Apache/Calcite/Sql.SqlKind.{SqlKind}
+    use Interop/Apache/Calcite/Sql/Type.SqlTypeName
+    use Interop/Apache/Calcite/Sql/Type.SqlTypeName.{SqlTypeName}
 
 
-    pub def getHH(lit: SqlLiteral): ##org.apache.calcite.sql.SqlLiteral = 
-        let SqlLiteral(lit1) = lit;
-        lit1
+    pub def getHH(l: SqlLiteral): ##org.apache.calcite.sql.SqlLiteral = 
+        let SqlLiteral(l1) = l;
+        l1
 
 
-    pub def toString(lit: SqlLiteral): String = 
+    pub def toString(l: SqlLiteral): String = 
         import org.apache.calcite.sql.SqlLiteral.toString(): String \ {};
-        let SqlLiteral(lit1) = lit;
-        toString(lit1)
+        let SqlLiteral(l1) = l;
+        toString(l1)
+
+
+    pub def equals(x: SqlLiteral, y: SqlLiteral): Bool = 
+        import org.apache.calcite.sql.SqlLiteral.equals(##java.lang.Object): Bool \ {};
+        let SqlLiteral(x1) = x;
+        let SqlLiteral(y1) = y;
+        equals(x1, y1 as ##java.lang.Object)
+
+
+    pub def getKind(l: SqlLiteral): SqlKind = 
+        import org.apache.calcite.sql.SqlLiteral.getKind(): ##org.apache.calcite.sql.SqlKind \ {};
+        let SqlLiteral(l1) = l;
+        getKind(l1) |> SqlKind
+
+    pub def getTypeName(l: SqlLiteral): SqlTypeName = 
+        import org.apache.calcite.sql.SqlLiteral.getTypeName(): ##org.apache.calcite.sql.type.SqlTypeName \ {};
+        let SqlLiteral(l1) = l;
+        getTypeName(l1) |> SqlTypeName
 
 }
